@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     color: THEME.COLORS.TEXT,
     fontSize: THEME.FONT_SIZE.LG,
     fontFamily: THEME.FONT_FAMILY.BLACK,
+    marginBottom: 6,
   },
   subtitle: {
     color: THEME.COLORS.CAPTION_400,
