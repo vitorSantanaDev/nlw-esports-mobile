@@ -4,31 +4,29 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  ImageSourcePropType,
   TouchableOpacityProps,
 } from "react-native";
 import { THEME } from "../../theme";
 
 import { styles } from "./styles";
-
-export interface IGameData {
-  id: string;
-  name: string;
-  ads: string;
-  cover: ImageSourcePropType;
-}
+import { IGame } from "../../interfaces/game";
 
 interface IGameProps extends TouchableOpacityProps {
-  data: IGameData;
+  data: IGame;
 }
 
 export default function GameCard({ data, ...rest }: IGameProps) {
   return (
     <TouchableOpacity style={styles.container} {...rest}>
-      <ImageBackground source={data.cover} style={styles.cover}>
+      <ImageBackground
+        source={{
+          uri: data.bannerUrl,
+        }}
+        style={styles.cover}
+      >
         <LinearGradient style={styles.footer} colors={THEME.COLORS.FOOTER}>
           <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.name}>{data.ads} anúncios</Text>
+          <Text style={styles.name}>{data._count.ads} anúncios</Text>
         </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>
