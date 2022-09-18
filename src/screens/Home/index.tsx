@@ -18,7 +18,7 @@ export default function Home() {
 
   const fetchGames = () => {
     (async () => {
-      const response = await fetch(`http://192.168.0.104:3333/games`);
+      const response = await fetch(`http://localhost:3333/games`);
       const games = await response.json();
       setGames(games.data.games);
     })();
