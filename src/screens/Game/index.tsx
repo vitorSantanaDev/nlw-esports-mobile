@@ -12,6 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import {
   Background,
   DuoCard,
+  DuoMatch,
   Heading,
   NoAdsPlaceholder,
 } from "../../components";
@@ -28,16 +29,27 @@ export default function Game() {
   const route = useRoute();
   const game = route.params as IGame;
   const [duos, setDuos] = useState<Array<IAd>>([]);
+  const [discordDuoSelected, setDiscordDuoSelected] = useState("");
 
   const handleGoBackToHome = () => navigation.goBack();
 
   const fetchAdsOfTheGame = () => {
     (async () => {
       const response = await fetch(
-        `http://192.168.0.104:3333/games/${game.id}/ads`
+        `http://localhost:3333/games/${game.id}/ads`
       );
       const data = await response.json();
       setDuos(data.data.ads);
+    })();
+  };
+
+  const getDiscordOfTheAd = (adsId: string) => {
+    (async () => {
+      const response = await fetch(
+        `http://localhost:3333/ads/${adsId}/discord`
+      );
+      const data = await response.json();
+      setDiscordDuoSelected(data.data.discord);
     })();
   };
 
@@ -73,9 +85,18 @@ export default function Game() {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <DuoCard onConnectHandle={() => {}} data={item} />
+            <DuoCard
+              onConnectHandle={() => getDiscordOfTheAd(item.id)}
+              data={item}
+            />
           )}
           ListEmptyComponent={<NoAdsPlaceholder />}
+        />
+        <DuoMatch
+          discord={discordDuoSelected}
+          animationType="fade"
+          handleCloseModal={() => setDiscordDuoSelected("")}
+          visible={discordDuoSelected.length > 0}
         />
       </SafeAreaView>
     </Background>
